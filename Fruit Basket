@@ -1,0 +1,123 @@
+import Foundation
+
+var fruitList = [String]()
+var running = true
+
+// Function to take String
+func getInput(message : String) -> String? {
+  print(message, terminator : ": ")
+  return readLine()
+}
+
+// Function to take Int
+func getInputInt(message : String) -> Int?{
+  if let inputString =  getInput(message : message){
+    return Int(inputString)
+  }
+  else{
+    return 0
+  }
+}
+
+// Function to show Menu
+func showOptions(){
+  let userOptions  = ["Show all Fruits", "Add Fruit", "Edit Fruit", "Delete Fruit", "Quit"]
+  
+  print("Welcome To The Store!")
+  print("--------Menu---------")
+  for (i, option) in userOptions.enumerated(){
+    print("\(i+1). \(option)")
+  }
+}
+
+// Function to show all Fruits
+func showFruits(){
+  print("----------------------")
+  if fruitList.isEmpty{
+    print("No fruit available")
+  }
+  else{
+    for (i, option) in fruitList.enumerated(){
+      print("\(i+1). \(option)")
+    }
+  }
+}
+
+// Function to add Fruits
+func addFruits(){
+  print("----------------------")
+  if let name = getInput(message : "Enter a Fruit Name: "){
+    fruitList.append(name)
+    print("\(name) is successfully added")
+  }
+  else{
+    print("Input Invalid")
+    addFruits()
+  }
+}
+
+// Function to edit Fruit
+func editFruits(){
+  showFruits()
+  print("--------------------------")
+  if let position = getInputInt(message : "Enter the number of fruit to be edited"){
+    if position <= fruitList.count && position > 0{
+      if let name = getInput(message : "Enter a new Fruit"){
+        fruitList[position-1] = name
+        print("\(name) is successfully added")
+      }
+    }
+    else{
+      print("Number \(position) does not exist")
+      editFruits()
+    }
+  }
+  else{
+    print("Input Invalid")
+    editFruits()
+  }
+}
+
+// Function to delete Fruit
+func deleteFruit(){
+  showFruits()
+  print("----------------------")
+  if let position = getInputInt(message: "Choose a fruit positioin to be deleted") {
+    if position <= fruitList.count && position > 0 {
+      fruitList.remove(at: position-1)
+      print("\(fruitList[position-1]) is deleted successfully")
+    } else {
+      print("Please enter a valid input")
+      deleteFruit()
+    }
+  } else {
+    deleteFruit()
+    print("Input invalid")
+  }
+}
+
+while running {
+  showOptions()
+
+  if let position = getInputInt(message: "Please Choose a Number"), position <= 5 && position > 0 {
+    switch position{
+      case 1:
+        showFruits()
+      case 2:
+        addFruits()
+      case 3:
+        editFruits()
+      case 4:
+        deleteFruit()
+      case 5:
+        running = false
+      default :
+        print("Choice is not valid")
+    }
+  } else{
+    print("Item invalid")
+  }
+  print("--------------------------------------")
+  
+}
+print("Please come again !")
